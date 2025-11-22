@@ -53,7 +53,7 @@ function Navbar() {
             <img src={logo} alt="Logo" className="w-30 h-30 object-contain" />
 
             {/* <span className="font-bold text-gray-800 text-lg sm:text-xl">
-              OccasionSuper
+              Oveventz
             </span> */}
           </div>
 

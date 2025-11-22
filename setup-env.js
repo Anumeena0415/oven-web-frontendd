@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Environment Setup Script for OccasionSuper Frontend
+ * Environment Setup Script for Oveventz Frontend
  * 
  * This script helps you create the .env.local file with EmailJS configuration.
  * Run this script with: node setup-env.js

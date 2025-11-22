@@ -48,7 +48,7 @@ function HowItWorks() {
 
   return (
     <section className="bg-gray-50 py-16">
-      {/* === Section 1: How OccasionSuper Works === */}
+      {/* === Section 1: How Oveventz Works === */}
       <div className="max-w-6xl mx-auto px-4 text-center">
         <span className="bg-orange-50 text-global px-3 sm:px-4 py-2 rounded-full text-sm sm:text-base lg:text-lg font-medium">
           ✨ AI-Powered Process

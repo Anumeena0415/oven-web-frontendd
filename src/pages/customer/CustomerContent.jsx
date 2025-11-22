@@ -18,9 +18,9 @@ const CustomerContent = () => {
     ];
 
     const events = [
-        { id: 1, title: "OccasionSuper Premium Event", date: "12/15/2024", price: 200000, status: "Completed", payment: "Partially Paid" },
-        { id: 2, title: "OccasionSuper Premium Event", date: "10/20/2024", price: 25000, status: "Confirmed", payment: "Unpaid" },
-        { id: 3, title: "OccasionSuper Premium Event", date: "11/5/2024", price: 150000, status: "Confirmed", payment: "Paid" },
+        { id: 1, title: "Oveventz Premium Event", date: "12/15/2024", price: 200000, status: "Completed", payment: "Partially Paid" },
+        { id: 2, title: "Oveventz Premium Event", date: "10/20/2024", price: 25000, status: "Confirmed", payment: "Unpaid" },
+        { id: 3, title: "Oveventz Premium Event", date: "11/5/2024", price: 150000, status: "Confirmed", payment: "Paid" },
     ];
 
     const payments = [
@@ -31,16 +31,16 @@ const CustomerContent = () => {
     ];
 
     return (
-        <div className="p-6 bg-gray-50">
+        <div className="p-2 sm:p-4 md:p-6 bg-gray-50">
             {/* Tabs */}
-            <div className="flex w-full border-1 border-gray-300 p-2 rounded-2xl justify-center space-x-50 mb-3">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:w-full sm:border-1 sm:border-gray-300 sm:p-2 sm:rounded-2xl sm:justify-center sm:space-x-2 mb-2 sm:mb-3">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`rounded-full font-medium text-lg transition ${activeTab === tab.id
-                            ? "px-9 py-3 bg-orange-400 text-white"
-                            : "px-9 py-3 text-gray-700 hover:bg-orange-100"
+                        className={`rounded-lg sm:rounded-full font-medium text-xs sm:text-sm md:text-lg transition text-center ${activeTab === tab.id
+                            ? "px-3 sm:px-6 md:px-9 py-2 sm:py-2 md:py-3 bg-orange-400 text-white"
+                            : "px-3 sm:px-6 md:px-9 py-2 sm:py-2 md:py-3 text-gray-700 hover:bg-orange-100 bg-white sm:bg-transparent"
                             }`}
                     >
                         {tab.label}
@@ -50,15 +50,15 @@ const CustomerContent = () => {
 
             {/* Overview */}
             {activeTab === "overview" && (
-                <div className="bg-white rounded-xl shadow p-6 text-center">
-                    <Calendar className="mx-auto text-orange-400 mb-4" size={40} />
-                    <h2 className="text-lg font-semibold">No upcoming events</h2>
-                    <p className="text-gray-500 mb-4">
+                <div className="bg-white rounded-lg sm:rounded-xl shadow p-3 sm:p-4 md:p-6 text-center">
+                    <Calendar className="mx-auto text-orange-400 mb-2 sm:mb-3 md:mb-4" size={24} />
+                    <h2 className="text-sm sm:text-base md:text-lg font-semibold">No upcoming events</h2>
+                    <p className="text-gray-500 mb-2 sm:mb-3 md:mb-4 text-xs sm:text-sm md:text-base">
                         Ready to plan your next amazing event?
                     </p>
                     <button
                         onClick={handleClick}
-                        className="bg-orange-400 hover:cursor-pointer hover:bg-orange-500 text-white px-6 py-2 rounded-lg">
+                        className="bg-orange-400 hover:cursor-pointer hover:bg-orange-500 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm md:text-base">
                         + Plan New Event
                     </button>
                 </div>
@@ -66,24 +66,24 @@ const CustomerContent = () => {
 
             {/* My Events */}
             {activeTab === "events" && (
-                <div className="space-y-4">
+                <div className="space-y-2 sm:space-y-3 md:space-y-4">
                     {events.map((event) => (
                         <div
                             key={event.id}
-                            className="flex items-center justify-between bg-white p-4 rounded-xl shadow"
+                            className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-white p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl shadow gap-2 sm:gap-0"
                         >
-                            <div className="flex items-center space-x-4">
-                                <Crown className="text-orange-400" size={32} />
-                                <div>
-                                    <h3 className="font-semibold">{event.title}</h3>
-                                    <p className="text-gray-500 text-sm">
+                            <div className="flex items-center space-x-2 sm:space-x-4">
+                                <Crown className="text-orange-400 flex-shrink-0" size={20} />
+                                <div className="min-w-0 flex-1">
+                                    <h3 className="font-semibold text-sm sm:text-base truncate">{event.title}</h3>
+                                    <p className="text-gray-500 text-xs sm:text-sm">
                                         {event.date} • ₹{event.price.toLocaleString()}
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-3">
+                            <div className="flex items-center space-x-2 sm:space-x-3 flex-wrap">
                                 <span
-                                    className={`px-3 py-1 rounded-full text-sm font-medium ${event.status === "Completed"
+                                    className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium ${event.status === "Completed"
                                         ? "bg-blue-100 text-blue-600"
                                         : "bg-green-100 text-green-600"
                                         }`}
@@ -91,7 +91,7 @@ const CustomerContent = () => {
                                     {event.status}
                                 </span>
                                 <span
-                                    className={`px-3 py-1 rounded-full text-sm font-medium ${event.payment === "Paid"
+                                    className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium ${event.payment === "Paid"
                                         ? "bg-green-100 text-green-600"
                                         : event.payment === "Unpaid"
                                             ? "bg-red-100 text-red-600"
@@ -100,7 +100,7 @@ const CustomerContent = () => {
                                 >
                                     {event.payment}
                                 </span>
-                                <button className="text-orange-500 hover:underline">View</button>
+                                <button className="text-orange-500 hover:underline text-xs sm:text-sm">View</button>
                             </div>
                         </div>
                     ))}
@@ -109,24 +109,24 @@ const CustomerContent = () => {
 
             {/* Payments */}
             {activeTab === "payments" && (
-                <div className="space-y-4">
+                <div className="space-y-2 sm:space-y-3 md:space-y-4">
                     {payments.map((payment) => (
                         <div
                             key={payment.id}
-                            className="flex items-center justify-between bg-white p-4 rounded-xl shadow"
+                            className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-white p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl shadow gap-2 sm:gap-0"
                         >
-                            <div>
-                                <h3 className="font-semibold">{payment.label}</h3>
-                                <p className="text-gray-500 text-sm">
+                            <div className="min-w-0 flex-1">
+                                <h3 className="font-semibold text-sm sm:text-base truncate">{payment.label}</h3>
+                                <p className="text-gray-500 text-xs sm:text-sm">
                                         Oveventz Invoice {payment.invoice}
                                 </p>
                             </div>
-                            <div className="flex items-center space-x-4">
-                                <span className="font-bold text-lg">
+                            <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4 flex-wrap">
+                                <span className="font-bold text-sm sm:text-base md:text-lg">
                                     ₹{payment.amount.toLocaleString()}
                                 </span>
                                 <span
-                                    className={`px-3 py-1 rounded-full text-sm font-medium ${payment.status === "Paid"
+                                    className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium ${payment.status === "Paid"
                                         ? "bg-green-100 text-green-600"
                                         : payment.status === "Unpaid"
                                             ? "bg-red-100 text-red-600"
@@ -137,7 +137,7 @@ const CustomerContent = () => {
                                 >
                                     {payment.status}
                                 </span>
-                                <button className="border px-3 py-1 rounded-lg text-sm text-orange-500 border-orange-300 hover:bg-orange-50">
+                                <button className="border px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm text-orange-500 border-orange-300 hover:bg-orange-50">
                                     Invoice
                                 </button>
                             </div>

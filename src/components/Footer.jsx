@@ -4,13 +4,12 @@ import { FaPinterest } from "react-icons/fa";
 import {
   Phone,
   Mail,
-  Facebook,
   Instagram,
   // Pinterest,
   Linkedin,
 } from "lucide-react";
 // const adminPhone = import.meta.env.VITE_PHONE;
-const adminPhone = "9870823328";
+const adminPhone = "9220836393";
 
 function Footer() {
   const navigate = useNavigate();
@@ -24,8 +23,8 @@ function Footer() {
               <h2 className="font-bold text-lg sm:text-xl">Oveventz</h2>
             </div>
             <p className="text-gray-300 leading-relaxed mb-4 text-sm sm:text-base">
-              Aapka event, humara responsibility. <br />
-              Planning se lekar execution tak, sab ek jagah.
+              From idea to celebrate - We Handle Everything. <br />
+              Aapka Event ,Humari Guarantee.
             </p>
 
            
@@ -82,18 +81,11 @@ function Footer() {
               </Link>
 
               <Link
-                to="mailto:info@oveventz.com"
+                to="mailto:password@oveventz.com"
                 target="_blank"
                 className="bg-[#4A3F3B] p-2 rounded-lg cursor-pointer hover:bg-[#E69B83] transition-colors duration-200"
               >
                 <Mail className="text-white" size={18} />
-              </Link>
-
-              <Link
-                to="https://www.facebook.com/Occasionsuper/"
-                className="bg-[#4A3F3B] p-2 rounded-lg cursor-pointer hover:bg-[#E69B83] transition-colors duration-200"
-              >
-                <Facebook className="text-white" size={18} />
               </Link>
 
               <Link
@@ -130,7 +122,10 @@ function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-600 mt-6 sm:mt-8 pt-4 text-center text-gray-400 text-sm sm:text-base">
-          © 2025 Oveventz. All rights reserved.
+          <p>© 2025 Oveventz. All rights reserved.</p>
+          <p className="mt-2 text-xs sm:text-sm text-gray-500">
+            ORBOSIS VIBEZ EVENT & MARKETING PRIVATE LIMITED
+          </p>
         </div>
       </div>
     </footer>

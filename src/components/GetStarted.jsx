@@ -35,7 +35,7 @@ function GetStarted({ text }) {
             Start Planning Now
           </button>
           <button className="px-8 sm:px-12 lg:px-14 py-3 cursor-pointer text-base sm:text-lg lg:text-xl font-medium rounded-xl border border-white text-white hover:bg-white hover:scale-105 hover:text-[#E69B83] transition-all ease-linear"
-            onClick={() => {navigate("/services");window.scrollTo({ top: 0, behavior: "smooth" });}} >
+            onClick={() => {navigate("/services");window.scrollTo({ top: 0, behavior: "instant" });}} >
             {text}
           </button>
         </div>

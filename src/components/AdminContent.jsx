@@ -54,14 +54,14 @@ export default function AdminContent({ stats = {}, loading = false }) {
     const revenueTrend = monthlyRevenue;
 
     return (
-        <div className="p-6 bg-gray-50">
+        <div className="p-2 sm:p-4 md:p-6 bg-gray-50">
             {/* Tabs */}
-            <div className="flex w-full justify-between mb-6 overflow-x-auto">
+            <div className="flex w-full justify-between mb-2 sm:mb-4 md:mb-6 overflow-x-auto gap-1 sm:gap-2 scrollbar-hide">
                 {["overview", "vendors", "bookings", "revenue", "Quality & Rewards", "reports", "Customer"].map((tab) => (
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
-                        className={`px-15 py-2 rounded-full capitalize ${activeTab === tab
+                        className={`px-2 sm:px-4 md:px-6 py-1 sm:py-2 rounded-full capitalize text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${activeTab === tab
                             ? "bg-orange-300 text-white"
                             : "bg-gray-50 text-gray-700"
                             }`}
@@ -73,46 +73,47 @@ export default function AdminContent({ stats = {}, loading = false }) {
 
             {/* Overview */}
             {activeTab === "overview" && (
-                <div className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-white p-4 rounded-2xl shadow">
-                        <h2 className="font-bold flex items-center space-x-2 text-lg">
+                <div className="grid md:grid-cols-2 gap-2 sm:gap-4 md:gap-6">
+                    <div className="bg-white p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-2xl shadow">
+                        <h2 className="font-bold flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base md:text-lg">
                             <span>📈</span>
                             <span>Revenue Trend</span>
                         </h2>
-                        <ResponsiveContainer width="100%" height={250}>
+                        <ResponsiveContainer width="100%" height={150}>
                             <LineChart data={revenueTrend}>
-                                <XAxis dataKey="month" />
-                                <YAxis />
+                                <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                                <YAxis tick={{ fontSize: 10 }} />
                                 <Tooltip />
                                 <Line
                                     type="monotone"
                                     dataKey="revenue"
                                     stroke="#F59E0B"
                                     fill="#FEE2E2"
+                                    strokeWidth={2}
                                 />
                             </LineChart>
                         </ResponsiveContainer>
                     </div>
 
-                    <div className="bg-white p-4 rounded-2xl shadow">
-                        <h2 className="font-bold flex items-center space-x-2 text-lg">
+                    <div className="bg-white p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-2xl shadow">
+                        <h2 className="font-bold flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base md:text-lg">
                             <span>🏢</span>
                             <span>Vendor Status</span>
                         </h2>
-                        <ResponsiveContainer width="100%" height={250}>
+                        <ResponsiveContainer width="100%" height={150}>
                             <PieChart>
                                 <Pie
                                     data={vendorStatus}
                                     dataKey="value"
                                     nameKey="name"
-                                    outerRadius={80}
-                                    label={({ name, value }) => `${name}: ${value}`}
+                                    outerRadius={50}
+                                    label={({ value }) => `${value}`}
                                 >
                                     {vendorStatus.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
                                 </Pie>
-                                <Legend />
+                                <Legend wrapperStyle={{ fontSize: '10px' }} />
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
@@ -170,8 +171,8 @@ export default function AdminContent({ stats = {}, loading = false }) {
 
             {/* Bookings */}
             {activeTab === "bookings" && (
-                <div className="bg-white p-4 rounded-2xl shadow">
-                    <h2 className="font-bold text-lg mb-4">Booking Management</h2>
+                <div className="bg-white p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-2xl shadow">
+                    <h2 className="font-bold text-sm sm:text-base md:text-lg mb-2 sm:mb-4">Booking Management</h2>
                     {stats.recentBookings && stats.recentBookings.length > 0 ? (
                         <div className="space-y-4">
                             {stats.recentBookings.map((booking, idx) => {
@@ -224,10 +225,10 @@ export default function AdminContent({ stats = {}, loading = false }) {
 
             {/* Revenue */}
             {activeTab === "revenue" && (
-                <div className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-white p-4 rounded-2xl shadow">
-                        <h2 className="font-bold text-lg mb-2">Monthly Revenue</h2>
-                        <ResponsiveContainer width="100%" height={250}>
+                <div className="grid md:grid-cols-2 gap-2 sm:gap-4 md:gap-6">
+                    <div className="bg-white p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-2xl shadow">
+                        <h2 className="font-bold text-sm sm:text-base md:text-lg mb-1 sm:mb-2">Monthly Revenue</h2>
+                        <ResponsiveContainer width="100%" height={150}>
                             <BarChart data={monthlyRevenue}>
                                 <XAxis dataKey="month" />
                                 <YAxis />
@@ -236,29 +237,29 @@ export default function AdminContent({ stats = {}, loading = false }) {
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
-                    <div className="bg-white p-4 rounded-2xl shadow flex flex-col justify-between">
+                    <div className="bg-white p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-2xl shadow flex flex-col justify-between">
                         <div>
-                            <h2 className="font-bold text-lg mb-2">Payout Management</h2>
-                            <div className="bg-gray-50 p-4 rounded-xl mb-3">
-                                <p className="text-gray-500 text-sm">Pending Payouts</p>
-                                <p className="text-2xl font-bold text-orange-600">
-                                    {loading ? "Loading..." : `₹${(stats.pendingPayouts || 0).toLocaleString('en-IN')}`}
+                            <h2 className="font-bold text-sm sm:text-base md:text-lg mb-1 sm:mb-2">Payout Management</h2>
+                            <div className="bg-gray-50 p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl mb-2 sm:mb-3">
+                                <p className="text-gray-500 text-xs sm:text-sm">Pending Payouts</p>
+                                <p className="text-lg sm:text-xl md:text-2xl font-bold text-orange-600">
+                                    {loading ? "..." : `₹${(stats.pendingPayouts || 0).toLocaleString('en-IN')}`}
                                 </p>
-                                <p className="text-gray-500 text-sm">
+                                <p className="text-gray-500 text-xs sm:text-sm">
                                     {stats.recentBookings?.filter(b => !b.status || b.status === 'pending').length || 0} bookings awaiting payment
                                 </p>
                             </div>
-                            <div className="bg-gray-50 p-4 rounded-xl">
-                                <p className="text-gray-500 text-sm">Processed Payouts</p>
-                                <p className="text-2xl font-bold text-teal-600">
-                                    {loading ? "Loading..." : `₹${(stats.processedPayouts || 0).toLocaleString('en-IN')}`}
+                            <div className="bg-gray-50 p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl">
+                                <p className="text-gray-500 text-xs sm:text-sm">Processed Payouts</p>
+                                <p className="text-lg sm:text-xl md:text-2xl font-bold text-teal-600">
+                                    {loading ? "..." : `₹${(stats.processedPayouts || 0).toLocaleString('en-IN')}`}
                                 </p>
-                                <p className="text-gray-500 text-sm">
+                                <p className="text-gray-500 text-xs sm:text-sm">
                                     {stats.recentBookings?.filter(b => b.status === 'completed' || b.status === 'paid').length || 0} successful payouts
                                 </p>
                             </div>
                         </div>
-                        <button className="mt-4 bg-orange-300 hover:bg-orange-400 text-white px-4 py-2 rounded-xl">
+                        <button className="mt-2 sm:mt-4 bg-orange-300 hover:bg-orange-400 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm">
                             $ Process Pending Payouts
                         </button>
                     </div>
@@ -268,37 +269,37 @@ export default function AdminContent({ stats = {}, loading = false }) {
 
             {/* Quality & Rewards Detection */}
             {activeTab === "Quality & Rewards" && (
-                <div className="bg-white p-4 rounded-2xl shadow space-y-4">
-                    <h2 className="font-bold text-lg mb-2">
+                <div className="bg-white p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-2xl shadow space-y-2 sm:space-y-4">
+                    <h2 className="font-bold text-sm sm:text-base md:text-lg mb-1 sm:mb-2">
                         Quality & Rewards Detection & Security
                     </h2>
-                    <div className="grid md:grid-cols-3 gap-4">
-                        <div className="bg-red-50 p-4 rounded-xl">
-                            <p className="font-semibold text-red-600 flex items-center space-x-2">
-                                <XCircle className="text-red-600" /> <span>High Risk</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
+                        <div className="bg-red-50 p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl">
+                            <p className="font-semibold text-red-600 flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
+                                <XCircle className="text-red-600 w-4 h-4 sm:w-5 sm:h-5" /> <span>High Risk</span>
                             </p>
-                            <ul className="text-sm text-red-600 mt-2 list-disc list-inside">
+                            <ul className="text-xs sm:text-sm text-red-600 mt-1 sm:mt-2 list-disc list-inside space-y-0.5">
                                 <li>Suspicious payment pattern detected</li>
                                 <li>Multiple bookings from same IP</li>
                                 <li>Vendor document mismatch</li>
                             </ul>
                         </div>
-                        <div className="bg-yellow-50 p-4 rounded-xl">
-                            <p className="font-semibold text-yellow-600 flex items-center space-x-2">
-                                <AlertTriangle className="text-yellow-600" />
+                        <div className="bg-yellow-50 p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl">
+                            <p className="font-semibold text-yellow-600 flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
+                                <AlertTriangle className="text-yellow-600 w-4 h-4 sm:w-5 sm:h-5" />
                                 <span>Medium Risk</span>
                             </p>
-                            <ul className="text-sm text-yellow-600 mt-2 list-disc list-inside">
+                            <ul className="text-xs sm:text-sm text-yellow-600 mt-1 sm:mt-2 list-disc list-inside space-y-0.5">
                                 <li>Unusual booking amounts</li>
                                 <li>New vendor rapid bookings</li>
                                 <li>Payment method changes</li>
                             </ul>
                         </div>
-                        <div className="bg-green-50 p-4 rounded-xl">
-                            <p className="font-semibold text-green-600 flex items-center space-x-2">
-                                <CheckCircle className="text-green-600" /> <span>Low Risk</span>
+                        <div className="bg-green-50 p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl">
+                            <p className="font-semibold text-green-600 flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
+                                <CheckCircle className="text-green-600 w-4 h-4 sm:w-5 sm:h-5" /> <span>Low Risk</span>
                             </p>
-                            <ul className="text-sm text-green-600 mt-2 list-disc list-inside">
+                            <ul className="text-xs sm:text-sm text-green-600 mt-1 sm:mt-2 list-disc list-inside space-y-0.5">
                                 <li>Minor verification delays</li>
                                 <li>Standard review required</li>
                                 <li>Routine security checks</li>
@@ -306,9 +307,9 @@ export default function AdminContent({ stats = {}, loading = false }) {
                         </div>
                     </div>
 
-                    <div className="bg-orange-50 p-4 rounded-xl">
-                        <p className="font-semibold">AI Analysis</p>
-                        <p className="text-sm text-orange-700 mt-2">
+                    <div className="bg-orange-50 p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl">
+                        <p className="font-semibold text-xs sm:text-sm md:text-base">AI Analysis</p>
+                        <p className="text-xs sm:text-sm text-orange-700 mt-1 sm:mt-2">
                             Our AI detected 3 potentially Quality & Rewardsulent patterns in the last 24
                             hours. Recommended actions: Review vendor ID #VEN-2024-0892,
                             investigate booking cluster from IP 192.168.1.xxx, and verify
@@ -321,48 +322,48 @@ export default function AdminContent({ stats = {}, loading = false }) {
             {/* Report Cards */}
             {activeTab === "reports" && (
                 <div>
-                    <div className="grid md:grid-cols-4 gap-6 mb-8">
-                        <div className="bg-orange-50 border border-orange-100 p-6 rounded-xl text-center cursor-pointer hover:shadow-md">
-                            <FileText className="mx-auto mb-3 text-orange-400" size={28} />
-                            <h3 className="font-semibold text-orange-500">Revenue Report</h3>
-                            <p className="text-sm text-gray-500">Monthly breakdown</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-6 mb-4 sm:mb-6 md:mb-8">
+                        <div className="bg-orange-50 border border-orange-100 p-2 sm:p-4 md:p-6 rounded-lg sm:rounded-xl text-center cursor-pointer hover:shadow-md">
+                            <FileText className="mx-auto mb-1 sm:mb-2 md:mb-3 text-orange-400" size={20} />
+                            <h3 className="font-semibold text-orange-500 text-xs sm:text-sm">Revenue Report</h3>
+                            <p className="text-xs sm:text-sm text-gray-500">Monthly breakdown</p>
                         </div>
-                        <div className="bg-orange-50 border border-orange-100 p-6 rounded-xl text-center cursor-pointer hover:shadow-md">
-                            <Building className="mx-auto mb-3 text-orange-400" size={28} />
-                            <h3 className="font-semibold text-orange-500">Vendor Report</h3>
-                            <p className="text-sm text-gray-500">Performance metrics</p>
+                        <div className="bg-orange-50 border border-orange-100 p-2 sm:p-4 md:p-6 rounded-lg sm:rounded-xl text-center cursor-pointer hover:shadow-md">
+                            <Building className="mx-auto mb-1 sm:mb-2 md:mb-3 text-orange-400" size={20} />
+                            <h3 className="font-semibold text-orange-500 text-xs sm:text-sm">Vendor Report</h3>
+                            <p className="text-xs sm:text-sm text-gray-500">Performance metrics</p>
                         </div>
-                        <div className="bg-orange-50 border border-orange-100 p-6 rounded-xl text-center cursor-pointer hover:shadow-md">
-                            <Users className="mx-auto mb-3 text-orange-400" size={28} />
-                            <h3 className="font-semibold text-orange-500">Customer Report</h3>
-                            <p className="text-sm text-gray-500">Engagement data</p>
+                        <div className="bg-orange-50 border border-orange-100 p-2 sm:p-4 md:p-6 rounded-lg sm:rounded-xl text-center cursor-pointer hover:shadow-md">
+                            <Users className="mx-auto mb-1 sm:mb-2 md:mb-3 text-orange-400" size={20} />
+                            <h3 className="font-semibold text-orange-500 text-xs sm:text-sm">Customer Report</h3>
+                            <p className="text-xs sm:text-sm text-gray-500">Engagement data</p>
                         </div>
-                        <div className="bg-orange-50 border border-orange-100 p-6 rounded-xl text-center cursor-pointer hover:shadow-md">
-                            <Shield className="mx-auto mb-3 text-orange-400" size={28} />
-                            <h3 className="font-semibold text-orange-500">Security Report</h3>
-                            <p className="text-sm text-gray-500">Quality & Rewards analysis</p>
+                        <div className="bg-orange-50 border border-orange-100 p-2 sm:p-4 md:p-6 rounded-lg sm:rounded-xl text-center cursor-pointer hover:shadow-md">
+                            <Shield className="mx-auto mb-1 sm:mb-2 md:mb-3 text-orange-400" size={20} />
+                            <h3 className="font-semibold text-orange-500 text-xs sm:text-sm">Security Report</h3>
+                            <p className="text-xs sm:text-sm text-gray-500">Quality & Rewards analysis</p>
                         </div>
                     </div>
 
                     {/* Custom Report Generator */}
                     <div>
-                        <h3 className="font-semibold text-lg mb-4">Custom Report Generator</h3>
-                        <div className="flex flex-col md:flex-row gap-4 items-center">
-                            <select className="w-full md:w-1/3 border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-orange-300">
+                        <h3 className="font-semibold text-sm sm:text-base md:text-lg mb-2 sm:mb-3 md:mb-4">Custom Report Generator</h3>
+                        <div className="flex flex-col md:flex-row gap-2 sm:gap-3 md:gap-4 items-center">
+                            <select className="w-full md:w-1/3 border rounded-lg p-1.5 sm:p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-300">
                                 <option>Report Type</option>
                                 <option>Revenue</option>
                                 <option>Vendors</option>
                                 <option>Customers</option>
                                 <option>Security</option>
                             </select>
-                            <select className="w-full md:w-1/3 border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-orange-300">
+                            <select className="w-full md:w-1/3 border rounded-lg p-1.5 sm:p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-300">
                                 <option>Time Period</option>
                                 <option>Last 7 Days</option>
                                 <option>Last 30 Days</option>
                                 <option>Last 6 Months</option>
                                 <option>Last Year</option>
                             </select>
-                            <button className="w-full md:w-auto bg-orange-300 hover:bg-orange-400 text-white px-6 py-2 rounded-lg flex items-center justify-center space-x-2">
+                            <button className="w-full md:w-auto bg-orange-300 hover:bg-orange-400 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-lg flex items-center justify-center space-x-2 text-xs sm:text-sm">
                                 <span>📥</span>
                                 <span>Generate Report</span>
                             </button>

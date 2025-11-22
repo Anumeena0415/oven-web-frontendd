@@ -7,7 +7,7 @@ function Packages() {
   // Card data
   const packages = [
     {
-      badge: "OccasionSuper Premium",
+      badge: "Oveventz Premium",
       image: Image1,
       title: "Shaadi Special Photography Package",
       desc: "Capture your special day with our premium photography package. Includes pre-weddi…",
@@ -15,7 +15,7 @@ function Packages() {
       tag: "All-inclusive",
     },
     {
-      badge: "OccasionSuper Premium",
+      badge: "Oveventz Premium",
       image: Image1,
       title: "Kids Birthday Bash Decor",
       desc: "Make your child's birthday unforgettable with our vibrant balloon and theme decor.…",
@@ -23,7 +23,7 @@ function Packages() {
       tag: "All-inclusive",
     },
     {
-      badge: "OccasionSuper Premium",
+      badge: "Oveventz Premium",
       image: Image1,
       title: "Corporate Grand Buffet (Per Plate)",
       desc: "Impress your corporate guests with a lavish multi-cuisine buffet. Perfect for office…",

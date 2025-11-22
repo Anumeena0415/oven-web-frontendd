@@ -41,6 +41,11 @@ const Services = () => {
   
   console.log("deletruee", deleteTrue);
 
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
   //  Fetch data after component mounts
   useEffect(() => {
     const fetchServices = async () => {
@@ -67,10 +72,6 @@ const Services = () => {
   }, []);
 
   const Navigate = useNavigate()
-
-  if (loading) {
-    return <Loading message="Loading services..." />;
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
@@ -177,24 +178,36 @@ const Services = () => {
 
         {/* Main Content */}
         <div className="lg:col-span-3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            {services 
-              .filter((service) => {
-                const matchesCategory =
-                  selected === "All Services" || service.category === selected;
-                const matchesPrice = price === 0 || service.price <= price;
-                return matchesCategory && matchesPrice;
-              })
-              .sort((a, b) => {
-                if (sortOrder === "lowToHigh") return a.price - b.price;
-                if (sortOrder === "highToLow") return b.price - a.price;
-                return 0;
-              })
-              .map((service) => (
-                
-                <Card key={service._id}  {...service} deleteTrue = {deleteTrue} />
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="bg-white rounded-xl shadow-md p-4 animate-pulse">
+                  <div className="h-48 bg-gray-200 rounded-lg mb-4"></div>
+                  <div className="h-6 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                </div>
               ))}
-          </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              {services 
+                .filter((service) => {
+                  const matchesCategory =
+                    selected === "All Services" || service.category === selected;
+                  const matchesPrice = price === 0 || service.price <= price;
+                  return matchesCategory && matchesPrice;
+                })
+                .sort((a, b) => {
+                  if (sortOrder === "lowToHigh") return a.price - b.price;
+                  if (sortOrder === "highToLow") return b.price - a.price;
+                  return 0;
+                })
+                .map((service) => (
+                  
+                  <Card key={service._id}  {...service} deleteTrue = {deleteTrue} />
+                ))}
+            </div>
+          )}
         </div>
       </div>
 

@@ -52,7 +52,7 @@ Make sure your backend (server.js) includes your Vercel domain in the allowedOri
 ```javascript
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://occasionsuper.in',
+  'https://oveventz.com',
   'https://ocassion-super.vercel.app', // Add your actual Vercel domain
   process.env.CLIENT_URL
 ].filter(Boolean);

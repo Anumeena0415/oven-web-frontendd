@@ -61,7 +61,7 @@ const Hero = () => {
                                 Start AI Planning
                             </button>
                             <button className="px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg lg:text-xl cursor-pointer rounded-lg border border-[#E69B83] text-[#E69B83] font-medium hover:bg-[#E69B83] hover:text-white transition"
-                                onClick={() =>{ navigate("/services");window.scrollTo({ top: 0, behavior: "smooth" });}} >
+                                onClick={() =>{ navigate("/services");window.scrollTo({ top: 0, behavior: "instant" });}} >
                                 Explore Services
                             </button>
                         </div>
