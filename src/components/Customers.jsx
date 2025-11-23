@@ -67,6 +67,22 @@ import { useState, useEffect } from "react";
 
 const ITEMS_PER_PAGE = 6;
 
+// Helper function to format date
+const formatDate = (dateString) => {
+  if (!dateString) return "N/A";
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString; // Return original if invalid date
+    return date.toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  } catch (error) {
+    return dateString; // Return original if error
+  }
+};
+
 const Customer = ({ title }) => {
   const [customers, setCustomers] = useState([]);
   const [showAll, setShowAll] = useState(false);
@@ -180,7 +196,7 @@ const Customer = ({ title }) => {
               <p className="text-gray-600">Name: {customer.name}</p>
               <p className="text-gray-600">Email: {customer.email}</p>
               <p className="text-gray-600">Phone No: {customer.phoneNo}</p>
-              <p className="text-gray-600">Date: {customer.date}</p>
+              <p className="text-gray-600">Date: {formatDate(customer.date)}</p>
               <p className="text-gray-600">City: {customer.city}</p>
               <p className="text-gray-600">Price: ₹{customer.budget}</p>
               <p className="text-gray-600">Venue: {customer.venuePreference}</p>
@@ -233,7 +249,7 @@ const Customer = ({ title }) => {
               <p className="text-gray-600">Name: {customer.name}</p>
               <p className="text-gray-600">Email: {customer.email}</p>
               <p className="text-gray-600">Phone No: {customer.phoneNo}</p>
-              <p className="text-gray-600">Date: {customer.date}</p>
+              <p className="text-gray-600">Date: {formatDate(customer.date)}</p>
               <p className="text-gray-600">City: {customer.city}</p>
               <p className="text-gray-600">Price: ₹{customer.budget}</p>
               <p className="text-gray-600">Venue: {customer.venuePreference}</p>
@@ -274,7 +290,7 @@ const Customer = ({ title }) => {
               <p className="text-gray-600">Name: {customer.name}</p>
               <p className="text-gray-600">Email: {customer.email}</p>
               <p className="text-gray-600">Phone No: {customer.phoneNo}</p>
-              <p className="text-gray-600">Date: {customer.date}</p>
+              <p className="text-gray-600">Date: {formatDate(customer.date)}</p>
               <p className="text-gray-600">City: {customer.city}</p>
               <p className="text-gray-600">Price: ₹{customer.budget}</p>
               <p className="text-gray-600">Venue: {customer.venuePreference}</p>
@@ -310,7 +326,7 @@ const Customer = ({ title }) => {
               <p className="text-gray-600">Name: {customer.name}</p>
               <p className="text-gray-600">Email: {customer.email}</p>
               <p className="text-gray-600">Phone No: {customer.phoneNo}</p>
-              <p className="text-gray-600">Date: {customer.date}</p>
+              <p className="text-gray-600">Date: {formatDate(customer.date)}</p>
               <p className="text-gray-600">City: {customer.city}</p>
               <p className="text-gray-600">Price: ₹{customer.budget}</p>
               <p className="text-gray-600">Venue: {customer.venuePreference}</p>

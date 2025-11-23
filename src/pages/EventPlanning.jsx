@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import {
   useLocation,
   useNavigate,
-  useParams,
-  useRoutes,
 } from "react-router-dom";
 
 import EventBasics from "../components/EventPlanning/EventBasics";
@@ -22,6 +20,7 @@ const EventPlanning = () => {
 
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [validateStep5, setValidateStep5] = useState(null);
   const [formData, setFormData] = useState({
     type: "",
     date: "",
@@ -97,6 +96,7 @@ const EventPlanning = () => {
 
   const totalSteps = 6;
 
+
   return (
     <div>
       <Navbar />
@@ -143,6 +143,11 @@ const EventPlanning = () => {
               <AddCustomerDetails
                 formData={formData}
                 setFormData={setFormData}
+                onValidationChange={(isValid, validateFn) => {
+                  if (validateFn) {
+                    setValidateStep5(() => validateFn);
+                  }
+                }}
               />
             )}
             {step === 6 && <SpecialInstructions event={{ formData }} />}
@@ -171,10 +176,30 @@ const EventPlanning = () => {
               
             ) : (
               <button
-                onClick={() =>
-                  setStep((prev) => Math.min(prev + 1, totalSteps))
-                }
-                className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-lg bg-[#E69B83] hover:bg-[#c16a4d] text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                onClick={() => {
+                  // If on step 5, validate before proceeding
+                  if (step === 5) {
+                    // Trigger validation to show errors
+                    if (validateStep5) {
+                      validateStep5();
+                    }
+                    // Check validation
+                    const { name, email, phoneNo } = formData.customerDetails;
+                    const isValid = (
+                      name.trim() !== "" &&
+                      email.trim() !== "" &&
+                      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
+                      phoneNo.trim() !== "" &&
+                      /^\d+$/.test(phoneNo) &&
+                      phoneNo.length <= 10
+                    );
+                    if (!isValid) {
+                      return; // Don't proceed if invalid - errors will be shown
+                    }
+                  }
+                  setStep((prev) => Math.min(prev + 1, totalSteps));
+                }}
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-lg bg-[#E69B83] hover:bg-[#c16a4d] text-white transition-colors duration-200"
               >
                 Next →
               </button>
