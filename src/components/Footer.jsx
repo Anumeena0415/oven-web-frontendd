@@ -7,6 +7,7 @@ import {
   Instagram,
   // Pinterest,
   Linkedin,
+  Facebook,
 } from "lucide-react";
 // const adminPhone = import.meta.env.VITE_PHONE;
 const adminPhone = "9220836393";
@@ -95,7 +96,13 @@ function Footer() {
                 <Instagram className="text-white" size={18} />
               </Link>
 
-              
+              <Link
+                to="https://www.facebook.com/oveventz"
+                target="_blank"
+                className="bg-[#4A3F3B] p-2 rounded-lg cursor-pointer hover:bg-[#E69B83] transition-colors duration-200"
+              >
+                <Facebook className="text-white" size={18} />
+              </Link>
 
               <Link
                 to="https://www.linkedin.com/in/ov-eventz-672374397/"
