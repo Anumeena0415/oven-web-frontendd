@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Utensils, Palette, Camera, Music, Building, Calendar } from "lucide-react";
 
 const services = [
@@ -13,12 +13,19 @@ const services = [
 const ServicesRequired = ({ formData, setFormData }) => {
   const [selectedServices, setSelectedServices] = useState(formData.services || []);
 
+  // Sync selectedServices to formData.services whenever it changes
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      services: selectedServices,
+    }));
+  }, [selectedServices, setFormData]);
+
 const toggleService = (label) => {
   setSelectedServices((prev) => {
     const updated = prev.includes(label)
       ? prev.filter((s) => s !== label)
       : [...prev, label];
-    console.log("updated services:", updated);
     return updated;
   });
 };

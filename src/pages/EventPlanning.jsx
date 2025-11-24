@@ -35,6 +35,7 @@ const EventPlanning = () => {
     status: "pending",
     venuePreference: "",
     services: [],
+    specialInstructions: "",
     customerDetails: {
       name: "",
       email: "",
@@ -73,7 +74,7 @@ const EventPlanning = () => {
         name: formData.customerDetails.name, 
         email: formData.customerDetails.email,
          phoneNo: formData.customerDetails.phoneNo, 
-         type: formData.type, // fixed field 
+         type: formData.type || formData.eventType || "", 
          date: formData.date, 
          city: formData.city, 
          guests: formData.guests,
@@ -81,6 +82,8 @@ const EventPlanning = () => {
           status: formData.status,
            venuePreference: formData.venuePreference,
             services: formData.services || [],
+            priorities: formData.priorities || {},
+            specialInstructions: formData.specialInstructions || "",
       } )
 
       console.log("resposnseeeeeeeee",res);
@@ -150,7 +153,7 @@ const EventPlanning = () => {
                 }}
               />
             )}
-            {step === 6 && <SpecialInstructions event={{ formData }} />}
+            {step === 6 && <SpecialInstructions event={{ formData }} formData={formData} setFormData={setFormData} />}
           </div>
 
           {/* Navigation Buttons */}

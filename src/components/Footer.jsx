@@ -81,7 +81,7 @@ function Footer() {
               </Link>
 
               <Link
-                to="mailto:password@oveventz.com"
+                to="mailto:info@oveventz.com"
                 target="_blank"
                 className="bg-[#4A3F3B] p-2 rounded-lg cursor-pointer hover:bg-[#E69B83] transition-colors duration-200"
               >

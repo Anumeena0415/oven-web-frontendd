@@ -1,8 +1,6 @@
 import React from "react";
 
-const SpecialInstructions = ({ event }) => {
-  console.log("event-", event.formData);
-  
+const SpecialInstructions = ({ event, formData, setFormData }) => {
   return (
     <div className="bg-white rounded-2xl p-3 mt-4">
       {/* Special Instructions */}
@@ -24,6 +22,8 @@ const SpecialInstructions = ({ event }) => {
         <textarea
           id="additional-details"
           rows="4"
+          value={formData.specialInstructions || ""}
+          onChange={(e) => setFormData({ ...formData, specialInstructions: e.target.value })}
           placeholder="Tell us about any specific themes, dietary requirements, cultural preferences, or special arrangements you need..."
           className="w-full p-2 outline-1 outline-gray-300 rounded-lg focus:outline-2 focus:outline-[#E69B83]"
         />

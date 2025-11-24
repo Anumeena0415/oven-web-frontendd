@@ -291,8 +291,7 @@ function VendorDetails() {
                       Approve
                     </button>
                     <button
-                      // onClick={() => updateStatus("rejected")}
-                      onClick={()=>{ updateStatus("reject");setIsModal(true)}}
+                      onClick={()=>{ setIsModal(true)}}
                       disabled={saving}
                       className={`px-3 py-1 rounded ${isModel?'hidden':""} bg-red-500 text-white hover:bg-red-600 transition`}
                     >

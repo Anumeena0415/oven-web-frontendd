@@ -91,16 +91,16 @@ export default function VendorProfile() {
 
     // 3. check changed fields
     const original = {
-      email: profile.user.email || "",
-      phone_number: profile.user.phone_number || "",
-      businessName: profile.vendor.businessName || "",
-      ownerName: profile.vendor.ownerName || "",
-      phone: profile.vendor.phone || "",
-      city: profile.vendor.city || "",
-      serviceArea: profile.vendor.serviceArea || "",
+      email: userData?.email || "",
+      phone_number: userData?.phone_number || "",
+      businessName: vendorData?.businessName || "",
+      ownerName: vendorData?.ownerName || "",
+      phone: vendorData?.phone || "",
+      city: vendorData?.city || "",
+      serviceArea: vendorData?.serviceArea || "",
       //update
-      profilePhoto: profile.vendor.profilePhoto || "", // add
-      upiId: profile.vendor.upiId || ""
+      profilePhoto: vendorData?.profilePhoto || "", // add
+      upiId: vendorData?.upiId || ""
     };
 
 
@@ -146,24 +146,25 @@ export default function VendorProfile() {
 
   if (loading)
     return <div className="p-6 text-center">Loading profile...</div>;
-  if (!profile)
-    return (
-      <div className="p-6 text-center text-red-500">No profile found</div>
-    );
+  
+  // Ensure profile has user and vendor objects (even if empty) - show blank fields instead of error
+  const userData = profile?.user || {};
+  const vendorData = profile?.vendor || {};
 
   // categories formatted
   const categories = (() => {
-    const mainCats = Array.isArray(profile.vendor.categories)
-      ? profile.vendor.categories.filter((c) => c.toLowerCase() !== "others")
+    if (!vendorData || !vendorData.categories) return "";
+    const mainCats = Array.isArray(vendorData.categories)
+      ? vendorData.categories.filter((c) => c.toLowerCase() !== "others")
       : [];
     let display = mainCats.join(", ");
-    if (profile.vendor.othersCategories) {
-      const others = Array.isArray(profile.vendor.othersCategories)
-        ? profile.vendor.othersCategories.join(", ")
-        : profile.vendor.othersCategories;
+    if (vendorData.othersCategories) {
+      const others = Array.isArray(vendorData.othersCategories)
+        ? vendorData.othersCategories.join(", ")
+        : vendorData.othersCategories;
       display += (display ? ", " : "") + `Others - ${others}`;
     }
-    return display || "—";
+    return display || "";
   })();
 
   const handlePhotoUpload = async (e) => {
@@ -180,7 +181,7 @@ export default function VendorProfile() {
 
       // 1. Upload photo to server/cloud
       const BASE_URL = import.meta.env.VITE_BACKEND_URL || "https://ovevents.onrender.com";
-      const uploadRes = await axios.post(
+      await axios.post(
         `${BASE_URL}/api/vendor/${userId}/upload-photo`,
         formDataFile,
         {
@@ -190,8 +191,6 @@ export default function VendorProfile() {
           },
         }
       );
-
-      const updatedVendor = uploadRes.data.data.vendor;
 
       // 2. Fetch updated profile from backend
       const profileRes = await axios.get(
@@ -245,9 +244,9 @@ export default function VendorProfile() {
         {/* user icon */}
         <div className="flex justify-center mb-3">
           <div className="relative group">
-            {profile.vendor?.profilePhoto ? (
+            {vendorData?.profilePhoto ? (
               <img
-                src={profile.vendor.profilePhoto}
+                src={vendorData.profilePhoto}
                 alt="Profile"
                 className="w-24 h-24 sm:w-30 sm:h-30 rounded-full object-cover"
               />
@@ -283,31 +282,31 @@ export default function VendorProfile() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
             {/* Business Name */}
             <div className="font-bold">Business Name</div>
-            <div className="mb-5 sm:mb-0">{profile.vendor.businessName}</div>
+            <div className="mb-5 sm:mb-0">{vendorData?.businessName || ""}</div>
 
             {/* Email */}
             <div className="font-bold">Email</div>
-            <div className="break-all mb-4 sm:mb-0">{profile.user.email}</div>
+            <div className="break-all mb-4 sm:mb-0">{userData?.email || ""}</div>
 
             {/* Phone */}
             <div className="font-bold">Phone</div>
-            <div className="mb-5 sm:mb-0">{profile.user.phone_number}</div>
+            <div className="mb-5 sm:mb-0">{userData?.phone_number || vendorData?.phone || ""}</div>
 
             {/* Owner Name */}
             <div className="font-bold">Owner Name</div>
-            <div className="mb-5 sm:mb-0">{profile.vendor.ownerName}</div>
+            <div className="mb-5 sm:mb-0">{vendorData?.ownerName || ""}</div>
 
             {/* City */}
             <div className="font-bold">City</div>
-            <div className="mb-5 sm:mb-0">{profile.vendor.city}</div>
+            <div className="mb-5 sm:mb-0">{vendorData?.city || ""}</div>
 
             {/* Service Area */}
             <div className="font-bold">Service Area</div>
-            <div className="mb-5 sm:mb-0">{profile.vendor.serviceArea}</div>
+            <div className="mb-5 sm:mb-0">{vendorData?.serviceArea || ""}</div>
 
             {/* UPI ID */}
             <div className="font-bold">UPI ID</div>
-            <div className="break-all mb-5 sm:mb-0">{profile.vendor.upiId || "—"}</div>
+            <div className="break-all mb-5 sm:mb-0">{vendorData?.upiId || ""}</div>
 
             {/* Categories */}
             <div className="font-bold">Categories</div>
@@ -315,7 +314,7 @@ export default function VendorProfile() {
 
             {/* Social Media */}
             <div className="font-bold">Social Media</div>
-            <div className="break-all mb-5 sm:mb-0">{profile.vendor.socialMedia}</div>
+            <div className="break-all mb-5 sm:mb-0">{vendorData?.socialMedia || ""}</div>
           </div>
         </div>
 

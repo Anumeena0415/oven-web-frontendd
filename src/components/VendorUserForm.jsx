@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // Utility: Generates a strong password
 const generateStrongPassword = () => {
@@ -148,13 +149,23 @@ export const VendorUserForm = ({
 
   const updateStatus = async (nextStatus) => {
     try {
+      // Validate status before sending
+      const allowedStatuses = ["pending", "approved", "rejected", "suspended"];
+      if (!allowedStatuses.includes(nextStatus)) {
+        const errorMsg = `Invalid status: "${nextStatus}". Allowed: ${allowedStatuses.join(", ")}`;
+        console.error(errorMsg);
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
+      }
+
       const base = import.meta.env.VITE_BACKEND_URL || "https://ovevents.onrender.com";
       const token = localStorage.getItem("authToken");
       if (!token) {
-        alert("Please login to access this page");
+        toast.error("Please login to access this page");
         return;
       }
-      console.log("base url-", `${base}/api/admin/vendors/${id}/status`);
+      
+      console.log("Updating status to:", nextStatus);
       const res = await fetch(`${base}/api/admin/vendors/${id}/status`, {
         method: "PATCH",
         headers: { 
@@ -167,14 +178,22 @@ export const VendorUserForm = ({
         }),
         credentials: "include",
       });
+      
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        console.log("-----------res", res);
-        throw new Error(body.message || `Failed with ${res.status}`);
+        console.error("Status update failed:", body);
+        const errorMsg = body.message || `Failed to update status (${res.status})`;
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
       }
-      console.log("res-", res);
+      
+      const responseData = await res.json();
+      console.log("Status updated successfully:", responseData);
+      return responseData;
     } catch (e) {
-      alert(e.message || "Failed to update status");
+      console.error("updateStatus error:", e);
+      toast.error(e.message || "Failed to update status");
+      throw e; // Re-throw so calling function can handle it
     }
   };
   // Handles the form submission (either API call or update callback)
@@ -192,16 +211,53 @@ export const VendorUserForm = ({
 
     // 1. Rejection/Comment Mode
     if (isModel) {
-      console.log("reject modal call--");
-      const base = import.meta.env.VITE_BACKEND_URL || "https://ovevents.onrender.com";
-      const data = await axios.post(`${base}/api/send-msg`, {
-        email: formData.email,
-        msg: msg,
-      });
-      // console.log("email-----", formData.email);
-      updateStatus("rejected");
-      navigate("/admin");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      try {
+        setIsUpdating(true);
+        setStatusMessage({
+          type: "info",
+          text: "Rejecting vendor application...",
+        });
+        toast.info("Rejecting vendor application...", { autoClose: 2000 });
+
+        const base = import.meta.env.VITE_BACKEND_URL || "https://ovevents.onrender.com";
+        
+        // Step 1: Send rejection email
+        try {
+          const emailResponse = await axios.post(`${base}/api/send-msg`, {
+            email: formData.email,
+            msg: msg,
+          });
+          console.log("Rejection email sent:", emailResponse.data);
+        } catch (emailError) {
+          console.error("Error sending rejection email:", emailError);
+          // Continue even if email fails
+        }
+
+        // Step 2: Update vendor status to rejected
+        await updateStatus("rejected");
+        
+        toast.success("Vendor application rejected successfully!", { autoClose: 3000 });
+        setStatusMessage({
+          type: "success",
+          text: "Vendor application rejected successfully!",
+        });
+
+        // Navigate after a short delay
+        setTimeout(() => {
+          navigate("/admin");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 1500);
+      } catch (error) {
+        console.error("Rejection error:", error);
+        const errorMessage = error.response?.data?.message || error.message || "Failed to reject vendor application";
+        toast.error(errorMessage, { autoClose: 4000 });
+        setStatusMessage({
+          type: "error",
+          text: `Error: ${errorMessage}`,
+        });
+      } finally {
+        setIsUpdating(false);
+      }
       return;
     } else {
       // 2. User Creation/Password Update Mode
@@ -229,7 +285,39 @@ export const VendorUserForm = ({
         await updateStatus("approved");
         console.log("Vendor approved ✅");
 
-        // Step 2: Send email with credentials using the vendorEmail endpoint (better template)
+        // Step 2: Create user account first (if not exists)
+        setStatusMessage({
+          type: "info",
+          text: "Creating user account...",
+        });
+
+        try {
+          const saveDataResponse = await fetch(`${base}/api/save-data`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({
+              email: formData.email,
+              password: localPassword,
+            }),
+          });
+
+          if (!saveDataResponse.ok) {
+            const errorData = await saveDataResponse.json().catch(() => ({}));
+            // If user already exists, that's okay - continue to email
+            if (errorData.message && !errorData.message.includes("already registered")) {
+              throw new Error(errorData.message || "Failed to create user account");
+            }
+            console.log("User account already exists or created successfully");
+          } else {
+            console.log("User account created successfully ✅");
+          }
+        } catch (userError) {
+          // If user creation fails but user might already exist, continue to email
+          console.warn("User creation warning:", userError.message);
+        }
+
+        // Step 3: Send email with credentials using the vendorEmail endpoint (better template)
         setStatusMessage({
           type: "info",
           text: "Sending credentials email to vendor...",
@@ -253,7 +341,7 @@ export const VendorUserForm = ({
             errorData.message || `Email sending failed with status ${emailResponse.status}.`
           );
         }
-
+        
         const emailData = await emailResponse.json();
         console.log("Email sent successfully:", emailData);
 

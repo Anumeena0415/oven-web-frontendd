@@ -205,7 +205,7 @@ const EventBasics = ({ formData, setFormData, title }) => {
   // ✅ Automatically set event type only if title matches
   useEffect(() => {
     if (isTitleValid) {
-      setFormData((prev) => ({ ...prev, eventType: title }));
+      setFormData((prev) => ({ ...prev, type: title, eventType: title }));
     }
   }, [title, isTitleValid, setFormData]);
 
@@ -251,11 +251,11 @@ const EventBasics = ({ formData, setFormData, title }) => {
             disabled={isTitleValid} // ✅ Disable manual click if auto-selected by title
             onClick={() => {
               if (!isTitleValid) {
-                setFormData({ ...formData, eventType: name });
+                setFormData({ ...formData, type: name, eventType: name });
               }
             }}
             className={`cursor-pointer border rounded-xl px-1 py-5 flex flex-col items-center justify-center transition ${
-              formData.eventType === name
+              formData.type === name || formData.eventType === name
                 ? "border-2 border-[#E69B83] bg-orange-50 text-orange-500"
                 : "border-gray-300 hover:border-2 hover:border-[#E69B83]"
             }`}
