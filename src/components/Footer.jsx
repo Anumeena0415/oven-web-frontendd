@@ -97,7 +97,7 @@ function Footer() {
               </Link>
 
               <Link
-                to="https://www.facebook.com/oveventz"
+                to="https://www.facebook.com/share/1AKXFrPwux/"
                 target="_blank"
                 className="bg-[#4A3F3B] p-2 rounded-lg cursor-pointer hover:bg-[#E69B83] transition-colors duration-200"
               >
