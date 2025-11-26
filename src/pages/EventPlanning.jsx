@@ -20,6 +20,7 @@ const EventPlanning = () => {
 
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [validateStep1, setValidateStep1] = useState(null);
   const [validateStep5, setValidateStep5] = useState(null);
   const [formData, setFormData] = useState({
     type: "",
@@ -131,6 +132,11 @@ const EventPlanning = () => {
                 title={title}
                 formData={formData}
                 setFormData={setFormData}
+                onValidationChange={(isValid, validateFn) => {
+                  if (validateFn) {
+                    setValidateStep1(() => validateFn);
+                  }
+                }}
               />
             )}
             {step === 2 && (
@@ -180,6 +186,24 @@ const EventPlanning = () => {
             ) : (
               <button
                 onClick={() => {
+                  // If on step 1, validate date before proceeding
+                  if (step === 1) {
+                    // Trigger validation to show errors
+                    if (validateStep1) {
+                      validateStep1();
+                    }
+                    // Check validation
+                    if (!formData.date || formData.date.trim() === "") {
+                      return; // Don't proceed if invalid - errors will be shown
+                    }
+                    const selectedDate = new Date(formData.date);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    selectedDate.setHours(0, 0, 0, 0);
+                    if (selectedDate < today) {
+                      return; // Don't proceed if invalid - errors will be shown
+                    }
+                  }
                   // If on step 5, validate before proceeding
                   if (step === 5) {
                     // Trigger validation to show errors
@@ -194,7 +218,7 @@ const EventPlanning = () => {
                       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
                       phoneNo.trim() !== "" &&
                       /^\d+$/.test(phoneNo) &&
-                      phoneNo.length <= 10
+                      phoneNo.length === 10
                     );
                     if (!isValid) {
                       return; // Don't proceed if invalid - errors will be shown

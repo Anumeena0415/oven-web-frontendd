@@ -31,8 +31,8 @@ const AddCustomerDetails = ({ formData, setFormData, onValidationChange }) => {
         error = "Phone Number is required";
       } else if (!/^\d+$/.test(value)) {
         error = "Phone number must contain only digits";
-      } else if (value.length > 10) {
-        error = "Phone number cannot be more than 10 digits";
+      } else if (value.length !== 10) {
+        error = "Phone number must be exactly 10 digits";
       }
     }
     
@@ -92,7 +92,7 @@ const AddCustomerDetails = ({ formData, setFormData, onValidationChange }) => {
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
       phoneNo.trim() !== "" &&
       /^\d+$/.test(phoneNo) &&
-      phoneNo.length <= 10
+      phoneNo.length === 10
     );
   }, [formData.customerDetails]);
 
@@ -174,7 +174,7 @@ const AddCustomerDetails = ({ formData, setFormData, onValidationChange }) => {
           value={formData.customerDetails.phoneNo || ""}
           onChange={handleChange}
           onBlur={handleBlur}
-          placeholder="Enter your phone number (max 10 digits)"
+          placeholder="Enter your phone number (exactly 10 digits)"
           maxLength={10}
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E69B83] ${
             (touched.phoneNo || submitAttempted) && errors.phoneNo ? "border-red-500" : ""

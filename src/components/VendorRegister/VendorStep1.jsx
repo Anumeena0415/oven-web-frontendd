@@ -172,7 +172,7 @@ const VendorStep1 = ({
               }
             }}
 
-            placeholder="you@gmail.com"
+            placeholder="your@email.com"
             className="outline-1 hover:outline-2 hover:outline-[#E69B83] rounded-lg px-4 py-2 w-full"
             required
           />
